@@ -2,6 +2,7 @@ package carv;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -27,18 +28,18 @@ public class App
                 .applyToSocketSettings(builder -> builder.connectTimeout(5, TimeUnit.SECONDS))
                 .build());
 
-            MongoDatabase admin = mongoClient.getDatabase("admin");
-            
-
             MongoDatabase database = mongoClient.getDatabase("demo");
 
     
             MongoCollection<Document> collection = database.getCollection("associates");
     
-            Document document = new Document();
-            document.append("firstName", "test");
-            document.append("lastName", "user");
-            collection.insertOne(document);
+            //Document document = new Document();
+            //document.append("firstName", "test");
+            //document.append("lastName", "user");
+            //collection.insertOne(document);
+            FindIterable<Document> result = collection.find();
+
+            result.forEach((document) -> {System.out.println(document);});
 
 
         }catch(Exception e){
